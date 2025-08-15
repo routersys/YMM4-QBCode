@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="YMM4QRBarcodePlugin.ValidationPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="40" d:DesignWidth="400"
+             Name="this" Margin="20,0,20,10">
+
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="UpdateBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#40D4F8D4" Offset="0.0" />
+            <GradientStop Color="#1080E080" Offset="1.0" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ErrorBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#40FFD0D0" Offset="0.0" />
+            <GradientStop Color="#10FF8080" Offset="1.0" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="InfoBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#40E0F0FF" Offset="0.0" />
+            <GradientStop Color="#10B0C4DE" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <Style x:Key="ValidationContainerStyle" TargetType="Border">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Update">
+                    <Setter Property="Background" Value="{StaticResource UpdateBrush}"/>
+                    <Setter Property="BorderBrush" Value="#FF34C759"/>
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Error">
+                    <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
+                    <Setter Property="BorderBrush" Value="#FFCC0000"/>
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Info">
+                    <Setter Property="Background" Value="{StaticResource InfoBrush}"/>
+                    <Setter Property="BorderBrush" Value="#FF007ACC"/>
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ValidationIconStyle" TargetType="Path">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border}}" Value="Update">
+                    <Setter Property="Fill" Value="#FF34C759"/>
+                    <Setter Property="Data" Value="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17L7,12H10V8H14V12H17L12,17Z"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border}}" Value="Error">
+                    <Setter Property="Fill" Value="#D73A49"/>
+                    <Setter Property="Data" Value="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border}}" Value="Info">
+                    <Setter Property="Fill" Value="#0366D6"/>
+                    <Setter Property="Data" Value="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,17A1.5,1.5 0 0,0 13.5,15.5V11A1.5,1.5 0 0,0 12,9.5A1.5,1.5 0 0,0 10.5,11V15.5A1.5,1.5 0 0,0 12,17M12,5.5A1.5,1.5 0 0,0 10.5,7A1.5,1.5 0 0,0 12,8.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 12,5.5Z"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ValidationTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border x:Name="MainValidationPanel" Style="{StaticResource ValidationContainerStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Path Grid.Column="0" x:Name="ValidationIcon" Style="{StaticResource ValidationIconStyle}"/>
+
+            <Canvas Grid.Column="1" x:Name="MessageCanvas" ClipToBounds="True">
+                <TextBlock x:Name="MessageText" Style="{StaticResource ValidationTextStyle}" Canvas.Left="0"/>
+            </Canvas>
+        </Grid>
+    </Border>
+</UserControl>
