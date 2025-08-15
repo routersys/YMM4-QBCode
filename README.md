@@ -6,6 +6,8 @@
 
 YMM4（YukkuriMovieMaker v4）で、QRコードや各種バーコードを簡単に生成・表示できるプラグインです。
 
+![image](https://github.com/routersys/YMM4-QBCode/blob/main/QBCode.png)
+
 ---
 
 ### 概要
